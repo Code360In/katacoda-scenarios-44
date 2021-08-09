@@ -1,6 +1,23 @@
-A Katacoda scenario is a series of Markdown files, bash scripts and a JSON file to define how your scenario should be configured, the text for the scenario and any automation required.
+До начала выполнения упражнения давайте подготови необходимую среду выполнения
 
 ## Task
+
+This environment has a launch.sh{{execute}}
+
+You can get with kubectl get nodes{{execute}}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Clone our example repository that contains the set of documentation with the following command:
 

@@ -4,7 +4,7 @@
   "details": {
     "steps": [
       {
-        "title": "Step 1 - Scenario Structure",
+        "title": "Шаг 1 - Подготовка среды выполнения",
         "text": "step1.md"
       },
       {
@@ -35,6 +35,6 @@
     "uilayout": "editor-terminal"
   },
   "backend": {
-    "imageid": "nodejs:12"
+    "imageid": "kubernetes-cluster-running:1.18"
   }
 }

@@ -1,38 +1,18 @@
 До начала выполнения упражнения давайте подготови необходимую среду выполнения
 
-## Task
+## Задача
 
-Перед началом запуска упраженения былы развернуты две виртуальные машины, на которые устанол Kubernetes и организивно минимальный кластер из одного управляющего (Master) узла, содержащего control plane Kubernetes и одного рабочего (Worker) узла, куда устанавливаются контейнеры с бизнес сервисами.
+Перед началом запуска упражнения были развернуты две виртуальные машины, на которые был установлен Kubernetes и организован минимальный кластер из одного управляющего узла (controlplane), содержащего control plane Kubernetes, и одного рабочего узла (node01), куда будут установлены контейнеры с бизнес сервисами.
 
 Давайте запустим Kubernetes, выполнив скрипт: `launch.sh`{{execute}}
 
-До пперехода к следующему шагу необходимо убедиться, что все пространсва имен (namespaces) находятся в состоянии Ready.
+До перехода к следующему шагу необходимо убедиться, что все узлы находятся в состоянии Ready.
 
-Для получения статустов, давайте выполним команду: `kubectl get nodes`{{execute}}
+Для получения их статусов, давайте выполним команду: `kubectl get nodes`{{execute}}
 
+Необходимое состояние узлов для перехода к следующему шагу приведено ниже:
+`NAME           STATUS   ROLES    AGE     VERSION`
+`controlplane   Ready    master   6m4s    v1.18.0`
+`node01         Ready    <none>   5m33s   v1.18.0`
 
-
-
-
-
-
-
-
-
-
-
-
-
-Clone our example repository that contains the set of documentation with the following command:
-
-`git clone https://github.com/katacoda/scenario-examples.git katacoda-scenario-examples`{{execute}}
-
-Within the repository, you will see a set of examples of implementing various Katacoda functionality.
-
-The scenario you are currently reading is in the directory `ls -lha katacoda-scenario-examples/create-scenario-101`{{execute}}. The directory name is what defines the URL.
-
-An example of the current step is `katacoda-scenario-examples/create-scenario-101/step1.md`{{open}}
-
-All the steps are collected via a JSON file, for example, `katacoda-scenario-examples/create-scenario-101/index.json`{{open}}.
-
-The JSON file defines the scenario title, the description, steps order, the UI layout and environment. You can find more about the layouts within our scenarios at [katacoda.com/docs/scenarios/layouts](https://katacoda.com/docs/scenarios/layouts) and environments at [katacoda.com/docs/scenarios/environments](https://katacoda.com/docs/scenarios/environments).
+Если вы не наблюдаете подобного вывода, подождите пол минуты и повторите попытку.

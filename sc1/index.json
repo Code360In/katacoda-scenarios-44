@@ -13,16 +13,8 @@
         "text": "step2.md"
       },
       {
-        "title": "Step 3 - CLI",
+        "title": "Шаг 3 - Deploy сервисов",
         "text": "step3.md"
-      },
-      {
-        "title": "Step 4 - VS Code Extension",
-        "text": "step4.md"
-      },
-      {
-        "title": "Step 5 - WebHooks",
-        "text": "step5.md"
       }
     ],
     "intro": {

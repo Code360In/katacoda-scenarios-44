@@ -1,9 +1,9 @@
 {
     "courses": [
       {
-        "title": "Katacoda UI Layouts Example",
-        "description": "Example of different Katacoda UI Layouts. Also, an example of creating a Katacoda Course!",
-        "id": "uilayouts"
+        "title": "Arashes",
+        "description": "Это мой новый сценрий",
+        "id": "create-scenario-101"
       },
       {
         "title": "Katacoda Environments",

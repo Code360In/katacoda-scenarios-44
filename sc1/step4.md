@@ -1,7 +1,4 @@
 
-https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
-https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
-
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
@@ -54,3 +51,12 @@ kube-system        kube-proxy-d57lp                           1/1     Running   
 
 `kubectl get svc istio-ingressgateway -n istio-system`{{execute}}
 
+
+
+https://istio.io/latest/docs/setup/getting-started/
+
+https://www.katacoda.com/artashesavetisyan/scenarios/sc1
+
+https://www.katacoda.com/courses/kubernetes/networking-introduction
+
+https://www.katacoda.com/courses/kubernetes/guestbook - пример удобного интерфейса 

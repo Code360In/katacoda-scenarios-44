@@ -18,3 +18,5 @@
 `node01         Ready    <none>   5m33s   v1.18.0`
 
 Если вы не наблюдаете подобного вывода, подождите 1-2 минуты и повторите попытку.
+
+`kubectl get pods --all-namespaces `{{execute}}

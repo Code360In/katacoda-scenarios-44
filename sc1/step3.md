@@ -13,3 +13,5 @@
 `kubectl config view --minify | grep namespace:`{{execute}}
 
 `kubectl label namespace dev-service-mesh istio-injection=enabled`{{execute}}
+
+`kubectl get pods --all-namespaces `{{execute}}

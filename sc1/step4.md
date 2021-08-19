@@ -1,13 +1,56 @@
 
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
-
 https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
 https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
 
-`kubectl apply -f https://github.com/avsinsight/katacoda-scenarios/blob/main/sc1/src/serviceA-srv.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
+
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
+
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
+
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
 
+kubectl get pods --all-namespacesNAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
+dev-service-mesh   service-a-v1-deployment-7d449f9498-z8vml   2/2     Running   0          93s
+istio-system       istio-ingressgateway-5c77558485-rw6hd      1/1     Running   0          3m31s
+istio-system       istiod-6c565d48b8-xt4zs                    1/1     Running   0          3m55s
+kube-system        coredns-66bff467f8-fccv2                   1/1     Running   0          5m57s
+kube-system        coredns-66bff467f8-qrcrn                   1/1     Running   0          5m57s
+kube-system        etcd-controlplane                          1/1     Running   0          6m6s
+kube-system        katacoda-cloud-provider-688986cfb9-2vhrf   1/1     Running   3          5m56s
+kube-system        kube-apiserver-controlplane                1/1     Running   0          6m6s
+kube-system        kube-controller-manager-controlplane       1/1     Running   0          6m6s
+kube-system        kube-flannel-ds-amd64-4d8v7                1/1     Running   0          5m42s
+kube-system        kube-flannel-ds-amd64-hsq28                1/1     Running   0          5m57s
+kube-system        kube-keepalived-vip-sj9xt                  1/1     Running   0          4m58s
+kube-system        kube-proxy-d57lp                           1/1     Running   0          5m42s
 
+
+
+`kubectl logs <pod-name>`
+
+`kubectl logs istio-ingressgateway-5c77558485-rw6hd`
+
+`kubectl logs service-a-v1-deployment-7d449f9498-z8vml`
+.   ____          _            __ _ _
+/\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+\\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+'  |____| .__|_| |_|_| |_\__, | / / / /
+=========|_|==============|___/=/_/_/_/
+:: Spring Boot ::                (v2.5.3)
+
+2021-08-19 14:27:25.622  INFO 1 --- [           main] com.example.springboot.Application       : Starting Application using Java 1.8.0_212 on service-a-v1-deployment-7d449f9498-z8vml with PID 1 (/app.jar started by ? in /)
+2021-08-19 14:27:25.627  INFO 1 --- [           main] com.example.springboot.Application       : No active profile set, falling back to default profiles: default
+2021-08-19 14:27:28.539  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-08-19 14:27:28.571  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-08-19 14:27:28.572  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.50]
+2021-08-19 14:27:28.695  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-08-19 14:27:28.695  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2901 ms
+2021-08-19 14:27:30.262  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-08-19 14:27:30.287  INFO 1 --- [           main] com.example.springboot.Application       : Started Application in 5.924 seconds (JVM running for 8.194)
+
+
+`kubectl get svc istio-ingressgateway -n istio-system`{{execute}}
 

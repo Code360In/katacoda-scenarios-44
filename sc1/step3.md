@@ -1,7 +1,15 @@
-На данном этапе мы развернем поды с бизнес сервисами 
+На данном шаге мы создадим пространство имен (namespase), где будут развернуты поды сервисов, а также настроим авто-внедрение контейнера с envoy-прокси в создаваемые поды.
 
-## Deploy сервисов
+## Создание пространство имен
 
-Для применения манифестов выполним команду `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.10/samples/bookinfo/platform/kube/bookinfo.yaml`{{execute}}
+Для создание пространства имен выполним команду: 'kubectl create namespace dev-service-mesh'{{execute}}
 
-Убедимся что все поды запущены и находястчя в стадии готовности 1/1: `kubectl get pods`{{execute}}
+Получим список всех существующих пространств имен (иначе называют — виртуальные кластеры) в нашем кластере и убедимся что dev-service-mesh есть в списке: 'kubectl get namespace'{{execute}}
+
+## Конфигурация пространства имен
+
+'kubectl config set-context --current --namespace=dev-service-mesh'{{execute}}
+
+'kubectl config view --minify | grep namespace:'{{execute}}
+
+'kubectl label namespace dev-service-mesh istio-injection=enabled'{{execute}}

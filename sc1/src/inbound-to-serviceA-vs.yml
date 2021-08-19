@@ -15,4 +15,4 @@ spec:
         - destination:
             host: service-a-srv
             port:
-              number: 8081
+              number: 80

@@ -2,14 +2,14 @@
 
 ## Создание пространство имен
 
-Для создание пространства имен выполним команду: 'kubectl create namespace dev-service-mesh'{{execute}}
+Для создание пространства имен выполним команду: `kubectl create namespace dev-service-mesh`{{execute}}
 
-Получим список всех существующих пространств имен (иначе называют — виртуальные кластеры) в нашем кластере и убедимся что dev-service-mesh есть в списке: 'kubectl get namespace'{{execute}}
+Получим список всех существующих пространств имен (иначе называют — виртуальные кластеры) в нашем кластере и убедимся что dev-service-mesh есть в списке: `kubectl get namespace`{{execute}}
 
 ## Конфигурация пространства имен
 
-'kubectl config set-context --current --namespace=dev-service-mesh'{{execute}}
+`kubectl config set-context --current --namespace=dev-service-mesh`{{execute}}
 
-'kubectl config view --minify | grep namespace:'{{execute}}
+`kubectl config view --minify | grep namespace:`{{execute}}
 
-'kubectl label namespace dev-service-mesh istio-injection=enabled'{{execute}}
+`kubectl label namespace dev-service-mesh istio-injection=enabled`{{execute}}

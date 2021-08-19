@@ -7,6 +7,11 @@
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
+`kubectl get svc istio-ingressgateway -n istio-system`{{execute}}
+`export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')`{{execute}}
+`export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')`{{execute}}
+`export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`{{execute}}
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 kubectl get pods --all-namespacesNAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
 dev-service-mesh   service-a-v1-deployment-7d449f9498-z8vml   2/2     Running   0          93s
@@ -49,7 +54,7 @@ kube-system        kube-proxy-d57lp                           1/1     Running   
 2021-08-19 14:27:30.287  INFO 1 --- [           main] com.example.springboot.Application       : Started Application in 5.924 seconds (JVM running for 8.194)
 
 
-`kubectl get svc istio-ingressgateway -n istio-system`{{execute}}
+
 
 
 

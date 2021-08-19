@@ -15,6 +15,7 @@
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-srv.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/internal-service-a-to-service-b-vs.yml`{{execute}}
 
 
 kubectl get pods --all-namespacesNAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE

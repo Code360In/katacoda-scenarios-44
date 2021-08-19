@@ -14,9 +14,9 @@
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-srv.yml`{{execute}}
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/internal-srv-a-to-srv-b-vs.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/prodecer-internal-host.yml`{{execute}}
 
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 kubectl get pods --all-namespacesNAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
 dev-service-mesh   service-a-v1-deployment-7d449f9498-z8vml   2/2     Running   0          93s

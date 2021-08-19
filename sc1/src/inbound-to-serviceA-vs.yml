@@ -11,6 +11,8 @@ spec:
     - match:
         - uri:
             exact: /service-a
+      rewrite:
+        uri: /
       route:
         - destination:
             host: service-a-srv

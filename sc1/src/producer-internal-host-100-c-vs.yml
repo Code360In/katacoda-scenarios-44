@@ -1,15 +1,15 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: prodecer-internal-host-vs
+  name: producer-internal-host-vs
 spec:
   hosts:
-    - prodecer-internal-host
+    - producer-internal-host
   gateways:
     - mesh
   http:
     - route:
         - destination:
-            host: prodecer-internal-host
+            host: service-c-srv
             port:
               number: 80

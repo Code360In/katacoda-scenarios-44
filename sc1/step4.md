@@ -14,12 +14,21 @@
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
-Создадим сервис: `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/prodecer-internal-host.yml`{{execute}}
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/prodecer-internal-host-vs.yml`{{execute}}
+Создадим сервис: `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
 
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/prodecer-internal-host-10-c-vs.yml`{{execute}}
+Создадим сервси С
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
+Обновим вирутальный сервис:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-10-c-vs.yml`{{execute}}
+Только один из 10 запросов будет направлен на Service C
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-90-c-vs.yml`{{execute}}
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
 
 
 

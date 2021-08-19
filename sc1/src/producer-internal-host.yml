@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: prodecer-internal-host
+  name: producer-internal-host
 spec:
   ports:
     - port: 80

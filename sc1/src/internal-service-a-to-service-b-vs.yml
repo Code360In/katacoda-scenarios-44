@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: internal-srv-a-to-srv-b-vs
+spec:
+  hosts:
+    - prodecer-internal-host
+  gateways:
+    - mesh
+  http:
+      route:
+        - destination:
+            host: service-b-srv
+            port:
+              number: 80

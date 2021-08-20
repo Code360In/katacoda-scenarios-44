@@ -4,6 +4,11 @@
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{copy}}
 
+Обратите внимание на ключ spec.template.spec.containers[0].image, значение которого содержит ссылку на image с бизнес сервисом ServiceB из DockerHub, 
+ключ spec.template.spec.containers[0].ports[0].containerPort (8082), содержащий номер порта который будет открыт у создаваемого контейнер и ключ metadata.labels.app, значение которго будет использовано в следующем манифесте. 
+
+Приложение ServiceB - это веб-приложение на беза Spring Boot и Java, которое принимает GET запросы по адресу http://localhost:8082/ и возвращает константный ответ вида: `Hello from ServiceB!`
+
 Давайте применим манифест, выполнив команду:`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
 Давайте рассмотрим этот манифест: `kubectl get deploy service-b-deployment -o yaml`{{execute}}

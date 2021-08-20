@@ -1,0 +1,10 @@
+/apps/ServiceA/build/
+/apps/ServiceA/.idea/
+/apps/ServiceA/.gradle/
+/apps/ServiceB/.gradle/
+/apps/ServiceB/.idea/
+/apps/ServiceB/build/
+/apps/ServiceC/.gradle/
+/apps/ServiceC/.idea/
+/apps/ServiceC/build/
+/notes.txt

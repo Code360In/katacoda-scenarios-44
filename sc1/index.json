@@ -25,8 +25,12 @@
         "text": "step5.md"
       },
       {
-        "title": "Шаг 6 - Применение манифеста GateWay",
+        "title": "Шаг 6 - Применение манифеста Gateway",
         "text": "step6.md"
+      },
+      {
+        "title": "Шаг 7 - Применение манифеста VirtualService",
+        "text": "step7.md"
       }
     ],
     "intro": {

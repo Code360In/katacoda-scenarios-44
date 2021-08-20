@@ -1,22 +1,22 @@
-Манифест Gateway из API Istio конфигурирует изолированный envoy-proxy, который управляет всем входящим (ingress-шлюз) или исходящим (egress-шлюз) трафиком сети.
+Манифест VirtualService из API Istio определяет список правил маршрутизации трафика внутри service-mesh в привязке к имени вызываемого хоста.
 
-На данном шаге мы будем конфигурировать ingres-шлюз представляющий собой под с контейнером envoy-proxy из пространства имен istio-system, где он был развернут автоматически при установке istio.
+На данном шаге мы применим манифест определеющий те правила, который позволят запросам из ingress-щлюза поступить в под c бизнес сервисом ServiceB.
 
 Рассмотрим манифест:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-gw.yml`{{copy}}
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-service-b-vs.yml`{{copy}}
 
-Обратите внимание на значения ключей spec.selector.istio - содержит значение селектора istio, таким образом определяя свое действие на под, имеющий подобный селектор (istio=ingressgateway).
+Обратите внимание на значения ключей spec.hosts, spec.gateways. Первый содержит список хостов которые охватывает данное правило, второй - список имен шлюзов, запросы из которых будут учтены данным правилом (здесь указано значение имени Gateway, созданного на предидущем шаге).
 
-Ключ spec.servers[0].port.number содержит номер порта, который будет открыт у ingress-шлюза для приема входящих запросов, а ключ spec.servers[0].hosts - имя хостов, которые могут быть запрошены.
+Ключ spec.http[0].match[0].uri.exact содержит значение HTTP заголовка path в запросе, он же определеят запрошенный путь, в данном случае это - "/service-b".
 
-Рассмотрим детальное описание пода istio-ingressgateway, в том числе перечисления его селекторов:
+Ключ spec.http[0].rewrite.uri содержит то значение, на которое следует заменить значение заголовка path поступивего запроса, в данном сллучае это "/", то есть запросы с путем "/service-b" будут направлены на корневой каталог ("/") хоста назначения.
 
-`kubectl describe pod -l app=istio-ingressgateway -n istio-system`{{execute}}
+Ключ spec.http[0].route[0].destination.host содержим имя хоста назначения, в данном случае producer-internal-host - имя в манифесте Service, созданном на шаге 5. Ключ spec.http[0].route[0].destination.port.number порт упомянутого серсиса.
 
-Давайте применим service-b-gw.yml:
+Давайте применим inbound-to-service-b-vs.yml:
 
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-gw.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-service-b-vs.yml`{{execute}}
 
 Получим детальное описание созданного ресурса:
 

@@ -10,7 +10,7 @@
 
 Ключ spec.servers[0].port.number содержит номер порта, который будет открыт у ingress-шлюза для приема входящих запросов, а ключ spec.servers[0].hosts - имя хостов, которые могут быть запрошены.
 
-Рассмотрим детальное описание пода istio-ingressgateway, в том числе перечисления его селекторов:
+Рассмотрим детальное описание пода istio-ingressgateway, в том числе блок Labels, содержащий среди прочего - istio=ingressgateway:
 
 `kubectl describe pod -l app=istio-ingressgateway -n istio-system`{{execute}}
 

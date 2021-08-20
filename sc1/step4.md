@@ -30,6 +30,15 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-10-c-vs.yml`{{execute}}
 Только один из 10 запросов будет направлен на Service C
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
+Конфигруация исходящего трафика
+Существует 3 подхода: 
+1) откруть доступ из любого пода по умолчанию
+2) Закрыть доступ на любой внешний хост исключаю те, которые явно указаны в SE 
+3) Направив трафик через единый egress шлюз: Egress gateways allow you to apply Istio features, for example, monitoring and route rules, to traffic exiting the mesh. 
+
+
+
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-90-c-vs.yml`{{execute}}
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}

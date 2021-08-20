@@ -2,7 +2,7 @@
 
 Схема создаваемой конфигурации сети:
 
-![Схема service mesh](../assets/scheme1-b.png)
+![Схема service mesh](https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/scheme1-b.png)
 
 Мы применим манифест Deploymnet на основе чего будет запущен под, содержащий бизнес-сервис.
 

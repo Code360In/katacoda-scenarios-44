@@ -1,8 +1,9 @@
+На этом шаге мы применим манифест Deploymnet на основе чего будет запущен под, содержащий бизнес-сервис.
 
-Создание деплоймента
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
+Давайте применим манифест, выполнив команду:`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
-Получим манифест:
+Давайте рассмотрим этот манифест: `kubectl get deploy service-b-deployment -o yaml`{{execute}}
+
 
 Рассмотрим основые строки
 

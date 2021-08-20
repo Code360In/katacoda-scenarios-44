@@ -4,17 +4,39 @@
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{copy}}
 
-Обратите внимание на ключ spec.template.spec.containers[0].image, значение которого содержит ссылку на image с бизнес сервисом ServiceB из DockerHub, 
-ключ spec.template.spec.containers[0].ports[0].containerPort (8082), содержащий номер порта который будет открыт у создаваемого контейнер и ключ metadata.labels.app, значение которго будет использовано в следующем манифесте. 
+Обратите внимание на ключ spec.template.spec.containers[0].image, значение которого содержит ссылку на image с бизнес сервисом ServiceB из DockerHub,
+ключ spec.template.spec.containers[0].ports[0].containerPort (8082), содержащий номер порта который будет открыт у создаваемого контейнер и ключ metadata.labels.app, значение которго будет использовано в следующем манифесте.
 
-Приложение ServiceB - это веб-приложение на беза Spring Boot и Java, которое принимает GET запросы по адресу http://localhost:8082/ и возвращает константный ответ вида: `Hello from ServiceB!`
+ServiceB - это веб-приложение на базе Spring Boot и Java, которое принимает GET запросы по адресу http://localhost:8082/ и возвращает константный ответ вида: `Hello from ServiceB!`
 
 Исходный код приложения: `https://github.com/avsinsight/katacoda-scenarios/tree/main/apps/ServiceB`{{copy}}
 
-Давайте применим манифест, выполнив команду:`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
+Давайте применим манифест, выполнив команду:
+
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
+
+Проверим статус созданного пода:
+
+`kubectl get pods`{{execute}}
+
+Запишем имя созданного пода в переменную POD_NAME:
+
+`export POD_NAME=$(kubectl get pod -l app=service-b-app -o jsonpath="{.items[0].metadata.name}")`{{execute}}
+
+Рассмотрим логи приложения ServiceB, выполнив команду:
+
+`kubectl logs $POD_NAME`{{execute}}
+
+Рассмотрим конфигурацию и состояние пода более подробно, выполнив команду:
+
+`kubectl describe $POD_NAME`{{execute}}
+Перейдем к следующему шагу.
 
 
-Рассмотрим основые строки
+
+
+
+
 
 Создание сервиса
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}

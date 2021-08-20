@@ -2,16 +2,22 @@
 
 ## Создание пространства имен
 
-Для создание пространства имен выполним команду: `kubectl create namespace dev-service-mesh`{{execute}}
+Мы создадим логическое изолированное пространство, где в дальнейшем будем разворачивать сервисы для этого мы будем использовать новое пространство имен (виртуальный кластер) Kubernetes.
 
-Получим список всех существующих пространств имен (иначе называют — виртуальные кластеры) в нашем кластере и убедимся что dev-service-mesh есть в списке: `kubectl get namespace`{{execute}}
+Для создания нового пространства имен dev-service-mesh выполним команду: `kubectl create namespace dev-service-mesh`{{execute}}
+
+Получим список всех существующих пространств имен в нашем кластере и убедимся что dev-service-mesh есть в списке: `kubectl get namespace`{{execute}}
 
 ## Конфигурация пространства имен
 
+Для того чтобы при написании очередной команды kubectl каждый раз не указывать то пространство имен, в котором следует исполнить команду, укажем в текущем контексте конфигураций Kubernetes созданное пространство dev-service-mesh:
+
 `kubectl config set-context --current --namespace=dev-service-mesh`{{execute}}
+
+Убедимся что  dev-service-mesh применено в текущем контексте:
 
 `kubectl config view --minify | grep namespace:`{{execute}}
 
-`kubectl label namespace dev-service-mesh istio-injection=enabled`{{execute}}
+Теперь настроим автоматическое внедрение контейнера с прокси-сервером Envoy в каждый создаваемый под, содержащий контейнер с бизнес-сервисом:
 
-`kubectl get pods --all-namespaces `{{execute}}
+`kubectl label namespace dev-service-mesh istio-injection=enabled`{{execute}}

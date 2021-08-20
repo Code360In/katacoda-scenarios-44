@@ -27,8 +27,8 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
 Обновим вирутальный сервис:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-10-c-vs.yml`{{execute}}
-Только один из 10 запросов будет направлен на Service C
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{execute}}
+Приблизительно 50% запросов будут направлены на Service C, оставшиейся как и ранее - на Service B. Совершите 5-6 и убедить что в ответад данных из разных сервисов.
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 Конфигруация исходящего трафика
@@ -37,11 +37,21 @@
 2) Закрыть доступ на любой внешний хост исключаю те, которые явно указаны в SE 
 3) Направив трафик через единый egress шлюз: Egress gateways allow you to apply Istio features, for example, monitoring and route rules, to traffic exiting the mesh. 
 
+Развернем egress-шлюз : `istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true`{{execute}}
 
-
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-90-c-vs.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/worldtime-host-se.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/worldtime-gw.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/outbound-srv-c-to-worldtime-vs.yml`{{execute}}
+Теперь исходящий трафик направляется через egress-шлюз:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
+Проверим логи Envoy egress-шлюза:
+`kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail`{{execute}}
+
+Переведем 100% из Service A в Service C:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
+Проверим:
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
 
 
 

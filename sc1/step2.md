@@ -8,7 +8,7 @@
 
 Проверим готовность среды для установки Istio: `istioctl x precheck`{{execute}}
 
-Запустим установку Istio: `istioctl install --set meshConfig.accessLogFile=/dev/stdout --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true`{{execute}}
+Запустим установку Istio: `istioctl install --set meshConfig.accessLogFile=/dev/stdout --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY`{{execute}}
 
 Обратите внимание на параметры, применяемые в данной команде:
 1) meshConfig.accessLogFile - установив флаг активации записи логов доступа Envoy

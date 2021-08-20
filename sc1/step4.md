@@ -13,13 +13,17 @@
 `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`{{execute}}
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
+Просмотрим логи:
+`kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
+`kubectl logs istio-ingressgateway-5c77558485-rw6hd`{{execute}} -- заменить на вид выше
+
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 Создадим сервис: `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
 
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-Создадим сервси С
+Создадим сервис С
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
 Обновим вирутальный сервис:

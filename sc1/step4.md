@@ -9,9 +9,9 @@
 
 Приложение ServiceB - это веб-приложение на беза Spring Boot и Java, которое принимает GET запросы по адресу http://localhost:8082/ и возвращает константный ответ вида: `Hello from ServiceB!`
 
-Давайте применим манифест, выполнив команду:`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
+Исходный код приложения: `https://github.com/avsinsight/katacoda-scenarios/tree/main/apps/ServiceB`{{copy}}
 
-Давайте рассмотрим этот манифест: `kubectl get deploy service-b-deployment -o yaml`{{execute}}
+Давайте применим манифест, выполнив команду:`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
 
 Рассмотрим основые строки

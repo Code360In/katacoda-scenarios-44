@@ -18,6 +18,6 @@
 
 `kubectl config view --minify | grep namespace:`{{execute}}
 
-Теперь настроим автоматическое внедрение контейнера с прокси-сервером Envoy в каждый создаваемый под, содержащий контейнер с бизнес-сервисом:
+Теперь настроим в пространсве имен dev-service-mesh автоматическое внедрение контейнера с прокси-сервером Envoy в каждый создаваемый под, содержащий контейнер с бизнес-сервисом:
 
 `kubectl label namespace dev-service-mesh istio-injection=enabled`{{execute}}

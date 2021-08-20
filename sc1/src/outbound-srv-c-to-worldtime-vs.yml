@@ -15,7 +15,7 @@ spec:
           port: 80
       route:
         - destination:
-            host: istio-egressgateway
+            host: istio-egressgateway.istio-system.svc.cluster.local
             port:
               number: 80
     - match:

@@ -11,6 +11,9 @@
 `export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')`{{execute}}
 `export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')`{{execute}}
 `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`{{execute}}
+Убедимся что, все поды работают корректно:
+`kubectl get pods --all-namespaces `{{execute}}
+
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 Просмотрим логи:
@@ -107,3 +110,5 @@ https://www.katacoda.com/artashesavetisyan/scenarios/sc1
 https://www.katacoda.com/courses/kubernetes/networking-introduction
 
 https://www.katacoda.com/courses/kubernetes/guestbook - пример удобного интерфейса 
+
+https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/

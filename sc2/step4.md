@@ -1,56 +1,24 @@
 
-Создание деплоймента
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
 
-Получим манифест:
-
-Рассмотрим основые строки
-
-Создание сервиса
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
-
-Получим манифест:
-
-Рассмотрим основые строки
-
-Открытие входящего трафика
-
-Создание Gateway
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
 
-Получим манифест:
-
-Рассмотрим основые строки
-
-
-Создание VS
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
-Получим манифест:
-
-Рассмотрим основые строки
-
-Доступ к ingress шлюзу
-Объснить:
 `kubectl get svc istio-ingressgateway -n istio-system`{{execute}}
 `export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')`{{execute}}
 `export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')`{{execute}}
 `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`{{execute}}
-
 Убедимся что, все поды работают корректно:
 `kubectl get pods --all-namespaces `{{execute}}
 
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-
-Получение информации о сервисах
-
 Просмотрим логи:
-
 `kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
 `kubectl logs istio-ingressgateway-5c77558485-rw6hd`{{execute}} -- заменить на вид выше
-
 
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 Создадим сервис: `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}

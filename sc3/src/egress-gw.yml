@@ -7,8 +7,10 @@ spec:
     istio: egressgateway
   servers:
     - port:
-        number: 80
-        name: http
-        protocol: HTTP
+        number: 443
+        name: tls
+        protocol: TLS
       hosts:
-        - worldtimeapi.org
+        - google.com
+      tls:
+        mode: PASSTHROUGH

@@ -14,7 +14,7 @@
 Россмотрим новую версию правила маршрутизации producer-internal-host-vs:
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{copy}}
 
-Блок spec.http[0].route содержит два вложенных блока destination с хостами producer-internal-host и service-c-srv, а также с ключами weight, содержашими знаячания процентных долей для расщепления трафика и перенаправления всех поступивших на хост producer-internal-host (ключ spec.hosts) запросов.
+Блок spec.http[0].route содержит два вложенных блока destination с хостами producer-internal-host и service-c-srv, а также с ключами weight, содержашими значания процентных долей для расщепления трафика и перенаправления всех поступивших на хост producer-internal-host (ключ spec.hosts) запросов.
 
 Обновим вирутальный сервис producer-internal-host-vs, созданный на предидущем шаге, новым манифестом producer-internal-host-50-c-vs.yml:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{execute}}
@@ -28,7 +28,7 @@
 Но будет также новый вариант:
 `Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... 502 Bad Gateway: [no body]`
 
-Такой ответ - результат направления запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика в Интернете по адресу http://producer-internal-host:80/.
+Такой ответ - результат направления запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика в Интернете по адресу `http://worldtimeapi.org/api/timezone/Europe`.
 
 Однако, на данном шаге исходящие запросы из нашего кластера запрещены, поэтому в ответе мы видим `502 Bad Gateway: [no body]`.
 

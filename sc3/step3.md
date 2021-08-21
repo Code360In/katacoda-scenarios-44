@@ -32,21 +32,11 @@
 И наконец совершим GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-
 В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... 502 Bad Gateway: [no body]`
 
-`Hello from ServiceA! Calling Producer Service... I/O error on GET request for "http://producer-internal-host:80/": producer-internal-host; nested exception is java.net.UnknownHostException: producer-internal-host`
+Такой ответ - результат направления запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика Интернете, напомню этот сервис запрашивает `http://worldtimeapi.org/api/timezone/Europe`.
 
-Что произошло?
-
-Мы совершили запрос в ingress-шлюз, который был перенаправлен в envoy-прокси пода с контейнером ServiceA. Далее запрос был маршрутизирован непосредственно в приложение ServiceA.
-
-ServiceA, получив запрос, совершил запрос по адресу http://producer-internal-host:80/, однако данного хоста еще нет в service mesh, поэтому произошло исключение java.net.UnknownHostException. ServiceA подготовил ответ на внешний вызов и вернул его.
-
-Проверим логи доступа Envoy ingress-шлюза:
-`kubectl logs -l app=istio-ingressgateway -n istio-system -c istio-proxy`{{execute}}
-
-Проверим логи доступа Envoy в поде с бизнес сервисом:
-`kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
+Однако, на данном шаге исходящие запросы из нашего кластера запрещены, поэтому в ответе мы видим `502 Bad Gateway: [no body]`.
 
 Перейдем далее.

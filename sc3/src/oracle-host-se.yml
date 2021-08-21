@@ -1,10 +1,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: google-se
+  name: www-oracle-com
 spec:
   hosts:
-    - google.com
+    - www.oracle.com
   ports:
     - number: 80
       name: http-port

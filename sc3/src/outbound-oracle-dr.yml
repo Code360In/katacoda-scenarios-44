@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: google-com
+  name: www-oracle-com-dr
 spec:
-  host: google.com
+  host: www.oracle.com
   trafficPolicy:
     portLevelSettings:
       - port:

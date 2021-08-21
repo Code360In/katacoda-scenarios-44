@@ -1,8 +1,7 @@
 
 
-
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/google-host-se.yml`{{execute}}
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-google-dr.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/oracle-host-se.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-oracle-dr.yml`{{execute}}
 
 Проверим готовность подов:
 `kubectl get pods --all-namespaces`{{execute}}

@@ -8,12 +8,11 @@
         "text": "step1.md"
       },
       {
-        "title": "Шаг 2 - Установка Istio",
-        "courseData": "install_istio.sh",
+        "title": "Шаг 2 - Сценарии упражнения",
         "text": "step2.md"
       },
       {
-        "title": "Шаг 3 - Подготовка пространства имен",
+        "title": "Шаг 3 - Маршрутизация входящего трафика в ServiceA",
         "text": "step3.md"
       },
       {

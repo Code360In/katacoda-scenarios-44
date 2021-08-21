@@ -1,17 +1,19 @@
-На этом шаге мы установим Istio
+Цель данного упражнения заключается в исполнении следующего сценария:
 
-## Задача
+1) Установка трех сервисов: ServiceA, ServiceB, ServiceC. ServiceA при получении запроса на адрес http://localhost:8081/, для формирования ответа запрашивает информацию у некого поставщика по константному адресу http://producer-internal-host:80/, получив ответ, ServiceA включает его в ответ на вызов из-вне кластера и возвращает его. В качестве подобных поставщиков вступают ServiceB, который всегда возвращает ответ "Hello from ServiceB", и ServiceC, который получив запрос, в свою очередь, совершает запрос на внешний хост worldtimeapi.org (http://worldtimeapi.org/api/timezone/Europe) и возвращает полученный ответ. ServiceB ожидает запросы на адрес http://localhost:8082/, ServiceC - http://localhost:8083/.
 
-Давайте загрузим istioctl - утилиту для конфигурации Istio выполнив команду: `curl -sL https://istio.io/downloadIstioctl | sh -`{{execute}}
+2) Настройка маршрутизации входящего трафика service mesh в ServiceA
 
-Для того что-бы работать с istioctl из командной строки давайте экспортируем путь к ней при помощи команды: `export PATH=$PATH:$HOME/.istioctl/bin`{{execute}}
+3) Направление исходящих запросов из ServiceA в ServiceB.
 
-Проверим готовность среды для установки Istio: `istioctl x precheck`{{execute}}
+4) Расщепление трафика и направление запросов из ServiceA, как в ServiceB так и в ServiceC.
 
-Запустим установку Istio: `istioctl install --set meshConfig.accessLogFile=/dev/stdout --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY`{{execute}}
+5) Открытие исходящего трафика из service mesh для получения ответов из worldtimeapi.org на запросы из ServiceC.
 
-Обратите внимание на параметры, применяемые в данной команде:
-1) meshConfig.accessLogFile - установив флаг активации записи логов доступа Envoy
-2) meshConfig.outboundTrafficPolicy.mode ... https://istio.io/latest/docs/tasks/traffic-management/egress/egress-control/#controlled-access-to-external-services   Запретим исходящий трафик...
+6) Перевод 100% запросов из ServiceA в ServiceC.
 
-Во время установки слудет подвердить намерение указав в терминале символ `"y"`
+Исходный код приложений:
+
+`https://github.com/avsinsight/katacoda-scenarios/tree/main/apps`{{copy}}
+
+Перейдем к следующему шагу.

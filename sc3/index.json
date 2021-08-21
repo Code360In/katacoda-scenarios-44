@@ -1,6 +1,6 @@
 {
-  "title": "Маршрутизация трафика внутри service mesh",
-  "description": "Рассмотьрм маршрутизацию трафика внутри service mesh",
+  "title": "Исходящий HTTPS трафик из service mesh",
+  "description": "Рассмотрим создание исходящего HTTPS трафика из service mesh",
   "details": {
     "steps": [
       {

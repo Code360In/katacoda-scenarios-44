@@ -1,3 +1,11 @@
+
+
+`curl -v http://www.oracle.com/index.html`{{execute}}
+
+`curl -v https://www.oracle.com/index.html`{{execute}}
+
+
+
 Цель данного упражнения заключается в исполнении следующих сценариев:
 
 1) Установка сервисов: ServiceA, ServiceC и настройка внутрисетевой маршрутизации.

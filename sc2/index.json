@@ -22,6 +22,10 @@
       {
         "title": "Шаг 5 - Расщепление трафика из ServiceA.",
         "text": "step5.md"
+      },
+      {
+        "title": "Шаг 6 - Открытие исходящего трафика в worldtimeapi.org",
+        "text": "step6.md"
       }
     ],
     "intro": {

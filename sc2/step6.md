@@ -1,6 +1,6 @@
 На этом шаге мы настроим балансиоровку исходящего трафика из ServiceA на два сервсиса-поставщика данных - ServiceB и ServiceC.
 
-Схема service mesh, в соотвесвтии с которой будем настраивать наш кластер:
+Схеме service mesh, в соотвесвтии с которой будем настраивать наш кластер:
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-3.png`{{copy}}
 

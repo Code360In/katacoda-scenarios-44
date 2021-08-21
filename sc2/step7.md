@@ -1,4 +1,22 @@
+Теперь, когда мы убедились в работоспособности пути ingress-шлюз -> ServiceA -> SericeC -> worldtimeapi.org, давайте переключим 100% трафика из ServiceA в ServiceC.
 
+Для этого нам нужно будет обновить манифест producer-internal-host-vs.
+
+Схема сети:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-5.png`{{copy}}
+
+Рассмотрим новую версию:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{copy}}
+
+Как видите, теперь в блоке destination присутствует только хост service-c-srv, который ведет на ServiceC. Напомню, ServiceA продолжит высылать запросы на хост producer-internal-host. Но сработает пере направление на ServiceC, вместо ServiceB.
+
+Применим манифест:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
+
+Совершим несколько запросов на ingress-шлюз:
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
+Теперь все ответы из ServiceC:
 
 
 
@@ -138,10 +156,6 @@
 Проверим логи Envoy egress-шлюза:
 `kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail`{{execute}}
 
-Переведем 100% из Service A в Service C:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
-Проверим:
-`curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 
 

@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: filter-local-rate-limit-ef
-  namespace: dev-service-mesh
+  namespace: istio-system
 spec:
   workloadSelector:
     labels:

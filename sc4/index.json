@@ -1,6 +1,6 @@
 {
-  "title": "Исходящий HTTPS трафик из service mesh",
-  "description": "Рассмотрим создание исходящего HTTPS трафика из service mesh",
+  "title": "Полтика rate limit",
+  "description": "Рассмотрим создание полтики rate limit",
   "details": {
     "steps": [
       {
@@ -8,16 +8,12 @@
         "text": "step1.md"
       },
       {
-        "title": "Шаг 2 - Сценарии упражнения",
+        "title": "Шаг 2 - Установка ServiceB, настройка входящего трафика",
         "text": "step2.md"
       },
       {
-        "title": "Шаг 3 - Установка ServiceG, внутрисетевая маршрутизация",
+        "title": "Шаг 3 - Создание EnvoyFilter",
         "text": "step3.md"
-      },
-      {
-        "title": "Шаг 4 - Конфигурацию исходящего HTTPS трафика.",
-        "text": "step4.md"
       }
     ],
     "intro": {

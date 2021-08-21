@@ -9,6 +9,16 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/service-g-gw.yml`{{execute}}
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/inbound-to-service-g-vs.yml`{{execute}}
 
+Проверим готовность подов:
+`kubectl get pods --all-namespaces`{{execute}}
+
+И наконец совершим GET запрос по адресу ingress-шлюза:
+`curl -v http://$GATEWAY_URL/service-g`{{execute}}
+
+
+
+
+
 
 На этом шаге мы установим ServiceA и ServiceC и настроим service mesh согласно следующей схеме:
 
@@ -36,13 +46,11 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
 
 
-Проверим готовность подов:
-`kubectl get pods --all-namespaces`{{execute}}
+
 
 Все поды, за исключением katacoda-cloud-provider, должны иметь статус Running, дождитесь нужного статсуса (в зависисмоти от нагрузки на серверы Katacoda это время может сильно варьировать).
 
-И наконец совершим GET запрос по адресу ingress-шлюза:
-`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
 
 В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
 `Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... 502 Bad Gateway: [no body]`

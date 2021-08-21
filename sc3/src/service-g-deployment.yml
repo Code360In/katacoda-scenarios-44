@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-a-v1-deployment
+  name: service-g-deployment
   labels:
     app: service-g-app
     version: v1

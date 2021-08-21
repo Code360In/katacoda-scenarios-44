@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: edition-cnn-com
+  name: google-com
 spec:
-  host: edition.cnn.com
+  host: google.com
   trafficPolicy:
     portLevelSettings:
       - port:

@@ -1,3 +1,20 @@
+
+
+
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/google-host-se.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-google-dr.yml`{{execute}}
+
+Проверим готовность подов:
+`kubectl get pods --all-namespaces`{{execute}}
+
+И наконец совершим GET запрос по адресу ingress-шлюза:
+`curl -v http://$GATEWAY_URL/service-g`{{execute}}
+
+
+
+
+
+
 На данном шаге мы откроем исходящий HTTPS трафик из service mesh для получения ответов из google.com на запросы из ServiceC.
 
 Развернем egress-шлюз, выполнив команду авто-конфигруации Isto:

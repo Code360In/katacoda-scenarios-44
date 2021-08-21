@@ -1,6 +1,6 @@
-На этом шаге мы настроим service mesh согласно следующей схеме:
+На этом шаге мы установим ServiceA и ServiceC и настроим service mesh согласно следующей схеме:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-1.png`{{copy}}
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc3-1.png`{{copy}}
 
 Давайте установим ServiceA:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
@@ -8,13 +8,21 @@
 Применим Service для деплоймента выше:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
 
-Создадим Gateway:
+Создадим Gateway для маршрутизации запросов из ingress-шлюза в ServiceA:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
 
-Определим правило маршрутизации:
+И применим правило маршрутизации:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
-Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}}
+Установим ServiceC:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
+
+Применим манифест Service для деплоймента ServiceC:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
+
+Применим манифест для перенаправдления трафика из ServiceA в ServiceC:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-100-c-vs.yml`{{execute}}
+
 
 Проверим готовность подов:
 `kubectl get pods --all-namespaces`{{execute}}
@@ -23,6 +31,7 @@
 
 И наконец совершим GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
 
 В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
 

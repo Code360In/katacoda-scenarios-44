@@ -1,82 +1,24 @@
+На данном шаге мы откроем исходящий HTTPS трафик из service mesh для получения ответов из oracle.com на запросы из ServiceG.
 
+Рассмотрим манифест outbound-oracle-dr.yml:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-oracle-dr.yml`{{copy}}
 
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/oracle-host-se.yml`{{execute}}
+Обратите внимание на ключ spec.trafficPolicy.portLevelSettings[0].tls со значением `mode: SIMPLE`. Такое значение позволит зашифровать HTTP трафик, поступивший на указанный порт 80 для хоста www.oracle.com.
+
+Рассмотрим манифест oracle-host-se.yml:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/oracle-host-se.yml`{{copy}}
+
+Ключи spec.hosts, а также две пары ключей number и protocol обозначают допустимые протоколы для приведенного хоста, но обратите внимание но ключ spec.ports[0].targetPort (443). При налчии этого ключа, трафик, который поступит на порт в значении spec.ports[0].number (80), будет перенаправлен на порт в значении spec.ports[0].targetPort (443).
+
+Таким образом мы достигнем перенаправления трафика при помощи envoy-прокси в контейнере с бизнес сервисом из порта 80, куда направляет запросы ServiceG, в порт 443.
+
+Применим DestinationRule:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-oracle-dr.yml`{{execute}}
 
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-egress-oracle-vs.yml`{{execute}}
+Применим ServiceEntry:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/oracle-host-se.yml`{{execute}}
 
-
-Проверим готовность подов:
-`kubectl get pods --all-namespaces`{{execute}}
-
-И наконец совершим GET запрос по адресу ingress-шлюза:
+Cовершим GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-g`{{execute}}
 
-
-
-
-
-
-На данном шаге мы откроем исходящий HTTPS трафик из service mesh для получения ответов из google.com на запросы из ServiceC.
-
-Развернем egress-шлюз, выполнив команду авто-конфигруации Isto:
-
-`istioctl install --set components.egressGateways[0].name=istio-egressgateway --set components.egressGateways[0].enabled=true`{{execute}}
-
-Просмотрим манифест google-host-se.yml:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/google-host-se.yml`{{copy}}
-
-Ключи spec.hosts, spec.ports[0].number, spec.ports[0].protocol содержат значение имени хоста, запросы на который следует разрешить, номера его порта, вид протокола.
-
-Применим ServiceEntry:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/google-host-se.yml`{{execute}}
-
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-egress-google-dr.yml`{{execute}}
-
-kubectl exec service-c-deployment-744fd455d-gbg5j -c service-c-container -- curl -sSL http://edition.cnn.com/politics
-
-
-egress-gw.yml
-
-
-
-
-https://istio.io/latest/blog/2018/egress-mongo/
-
-
-
-
-
-
-Создадим манифест Gateway для исходящего трафика:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/worldtime-gw.yml`{{execute}}
-
-Рассмотрим новое правило маршрутизации:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/outbound-srv-c-to-worldtime-vs.yml`{{copy}}
-
-В соответствии с этим манифестом новое правило будет работать при вызовах на хост worldtimeapi.org из шлюза istio-egressgateway, а также из любого envoy-прокси в неймспейсе. Если вызов прийдет из любого envoy-прокси в неймспейсе (кроме istio-egressgateway), произойдет его перенаправление на хост istio-egressgateway. Если поступит запрос из istio-egressgateway, то он будет направлен на хост worldtimeapi.org. Таким образом достигается сосредоточение всех исходящих вызовов в кластере на шлюз istio-egressgateway.
-
-Применим это правило:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/outbound-srv-c-to-worldtime-vs.yml`{{execute}}
-
-Теперь исходящий трафик направляется через egress-шлюз и достигает worldtimeapi.org.
-
-Совершим несколько запросов на ingress-шлюз, напомню, запросы из ServiceA все также балансируются между ServiceB и ServiceC:
-
-`curl -v http://$GATEWAY_URL/service-a`{{execute}}
-
-На этом шаге все ответы должны быть успешные и иметь вид (если поступили из ServiceB):
-`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
-
-Или из ServiceC:
-`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... Received response from worldtimeapi.org: Europe/Amsterdam`
-`Europe/Andorra`
-`Europe/Astrakhan`
-`Europe/Athens`
-`Europe/Belgrade`
-`Europe/Berlin`
-`Europe/... (printed only 100 symbols from response body beginning)`
-
-Обратите внимание, что в части ответа из ServiceC присутвует ответ из worldtimeapi.org по запросу `http://worldtimeapi.org/api/timezone/Europe`
-
-Перейдем далее.
+Таким образом мы зашифровали HTTP трафик и создали HTTPS соединение.

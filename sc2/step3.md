@@ -26,8 +26,13 @@
 `kubectl logs -l app=istio-ingressgateway -n istio-system -c istio-proxy`{{execute}}
 
 Проверим логи доступа Envoy в поде с бизнес сервисом:
-`kubectl logs -l app=service-b-app -c istio-proxy`{{execute}}
+`kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
+
 В ответ на совершенный вызов в случае успеха мы должны видеть сообщение:
+
+
+
+Перейдем далее.
 
 
 

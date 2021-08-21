@@ -1,33 +1,42 @@
-На этом шаге мы настроим service mesh согласно следующей схеме:
+На этом шаге мы направим исходящие запросы из ServiceA в ServiceB. На схеме это выглядет слудующим образом:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-1.png`{{copy}}
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}
 
-Давайте установим ServiceA:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
+Давайте установим ServiceB:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
-Применим Service для деплоймента выше:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
+Применим манифест Service для деплоймента выше:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
 
-Создадим Gateway:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
-
-Определим правило маршрутизации:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
-
-Подробно данные манифесты рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}}
+Определим правило маршрутизации запросов из ServiceA на хост producer-internal-host:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
 
 Проверим готовность подов:
 `kubectl get pods —all-namespaces`{{execute}}
 
-И наконец совершим GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
+
+
+Повторим совершенный не предидущем шаге GET запрос по адресу ingress-шлюза:
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
+В случае успеха ответ на совершенный вызов должен быть таким:
+
+
 
 Проверим логи доступа Envoy ingress-шлюза:
 `kubectl logs -l app=istio-ingressgateway -n istio-system -c istio-proxy`{{execute}}
 
-Проверим логи доступа Envoy в поде с бизнес сервисом:
+Проверим логи доступа Envoy в поде с бизнес сервисом ServiceA:
+`kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
+
+Проверим логи доступа Envoy в поде с бизнес сервисом ServiceB:
 `kubectl logs -l app=service-b-app -c istio-proxy`{{execute}}
-В ответ на совершенный вызов в случае успеха мы должны видеть сообщение:
+
+
+
+Перейдем далее.
 
 
 

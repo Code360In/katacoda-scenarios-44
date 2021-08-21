@@ -28,7 +28,7 @@
 Но будет также новый вариант:
 `Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... 502 Bad Gateway: [no body]`
 
-Такой ответ - результат направления на запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика в Интернете по адресу http://producer-internal-host:80/.
+Такой ответ - результат направления запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика в Интернете по адресу http://producer-internal-host:80/.
 
 Однако на данном шаге исходящие запросы из нашего кластера запрещены, поэтому в ответе мы видим `502 Bad Gateway: [no body]`.
 

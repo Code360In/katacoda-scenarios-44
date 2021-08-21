@@ -1,8 +1,13 @@
+На данном шаге мы откроем исходящий трафик из service mesh для получения ответов из worldtimeapi.org на запросы из ServiceC.
+
+Схема service mesh, в соотвесвтии с которой будем настраивать наш кластер:
+
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-4.png`{{copy}}
+
+
 На этом шаге мы настроим балансиоровку исходящего трафика из ServiceA на два сервсиса-поставщика данных - ServiceB и ServiceC.
 
-Схеме service mesh, в соотвесвтии с которой будем настраивать наш кластер:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-3.png`{{copy}}
 
 
 Установим ServiceC:

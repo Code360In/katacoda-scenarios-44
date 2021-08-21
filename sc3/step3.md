@@ -1,3 +1,15 @@
+
+
+
+
+
+
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/service-g-deployment.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/service-g-srv.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/service-g-gw.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/inbound-to-service-g-vs.yml`{{execute}}
+
+
 На этом шаге мы установим ServiceA и ServiceC и настроим service mesh согласно следующей схеме:
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc3-1.png`{{copy}}

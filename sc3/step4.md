@@ -12,11 +12,14 @@
 Применим ServiceEntry:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/google-host-se.yml`{{execute}}
 
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/outbound-egress-google-dr.yml`{{execute}}
 
+kubectl exec service-c-deployment-744fd455d-gbg5j -c service-c-container -- curl -sSL http://edition.cnn.com/politics
 
 
 egress-gw.yml
-outbound-egress-google-dr.yml
+
+
 
 
 https://istio.io/latest/blog/2018/egress-mongo/

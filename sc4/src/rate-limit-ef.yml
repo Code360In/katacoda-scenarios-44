@@ -4,9 +4,6 @@ metadata:
   name: filter-local-rate-limit-ef
   namespace: istio-system
 spec:
-  workloadSelector:
-    labels:
-      app: service-b-app
   configPatches:
     - applyTo: HTTP_FILTER
       match:

@@ -1,6 +1,6 @@
 {
-  "title": "Установка Istio",
-  "description": "Learn how to create your first Katacoda scenario",
+  "title": "Маршрутизация трафика внутри service mesh",
+  "description": "Рассмотьрм маршрутизацию трафика внутри service mesh",
   "details": {
     "steps": [
       {

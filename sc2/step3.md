@@ -14,7 +14,7 @@
 Определим правило маршрутизации:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
-Подробно данные манифесты рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}}
+Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}}
 
 Проверим готовность подов:
 `kubectl get pods --all-namespaces`{{execute}}

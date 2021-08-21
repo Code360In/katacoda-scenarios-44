@@ -6,7 +6,7 @@
 
 Существует 3 подхода к открытию исходящего трафика в Istio:
 
-1) открытый доступ из любого пода на любой внешний хост по умолчанию - удобный подход для разработки но не безопасный и не контролируемый, поэтому в промышленной эксплуатации применяется редко.
+1) открытый доступ из любого пода на любой внешний хост по умолчанию - удобный подход для разработки, но не безопасный и не контролируемый, поэтому в промышленной эксплуатации применяется редко.
 
 2) Отсутствие доступа на любой внешний хост исключая те, которые явно указаны в манифесте ServiceEntry.
 
@@ -32,7 +32,7 @@
 Рассмотрим новое правило маршрутизации:
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/outbound-srv-c-to-worldtime-vs.yml`{{copy}}
 
-В соответствии с этим манифестом новое правило будет работать при вызовах на хост worldtimeapi.org из шлюза istio-egressgateway, а также из любого envoy-прокси в неймспейсе. Если вызов приходит из любого envoy-прокси в неймспейсе (кроме istio-egressgateway), произойдет его перенаправление на хост istio-egressgateway. Если поступит запрос из istio-egressgateway, то он будет направлен на хост worldtimeapi.org. Таким образом достигается сосредоточение всех исходящих вызовов в кластере на шлюз istio-egressgateway.
+В соответствии с этим манифестом новое правило будет работать при вызовах на хост worldtimeapi.org из шлюза istio-egressgateway, а также из любого envoy-прокси в неймспейсе. Если вызов прийдет из любого envoy-прокси в неймспейсе (кроме istio-egressgateway), произойдет его перенаправление на хост istio-egressgateway. Если поступит запрос из istio-egressgateway, то он будет направлен на хост worldtimeapi.org. Таким образом достигается сосредоточение всех исходящих вызовов в кластере на шлюз istio-egressgateway.
 
 Применим это правило:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/outbound-srv-c-to-worldtime-vs.yml`{{execute}}
@@ -43,6 +43,18 @@
 
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-На этом шаге все ответы должны быть успешные вида:
+На этом шаге все ответы должны быть успешные и иметь вид (если поступили из ServiceB):
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
+
+Или из ServiceC:
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... Received response from worldtimeapi.org: Europe/Amsterdam`
+`Europe/Andorra`
+`Europe/Astrakhan`
+`Europe/Athens`
+`Europe/Belgrade`
+`Europe/Berlin`
+`Europe/... (printed only 100 symbols from response body beginning)`
+
+Обратите внимание, что в части ответа из ServiceC присутвует ответ из worldtimeapi.org по запросу `http://worldtimeapi.org/api/timezone/Europe`
 
 Перейдем далее.

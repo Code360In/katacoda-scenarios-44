@@ -26,6 +26,10 @@
       {
         "title": "Шаг 6 - Открытие исходящего трафика в worldtimeapi.org",
         "text": "step6.md"
+      },
+      {
+        "title": "Шаг 7 - Перевод всех запросов из ServiceA в ServiceC",
+        "text": "step7.md"
       }
     ],
     "intro": {

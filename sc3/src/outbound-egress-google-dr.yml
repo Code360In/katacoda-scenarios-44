@@ -1,8 +1,12 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: outbound-egress-google-dr
+  name: edition-cnn-com
 spec:
-  host: istio-egressgateway.istio-system.svc.cluster.local
-  subsets:
-    - name: google
+  host: edition.cnn.com
+  trafficPolicy:
+    portLevelSettings:
+      - port:
+          number: 80
+        tls:
+          mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com

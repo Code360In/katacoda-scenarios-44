@@ -18,6 +18,10 @@
       {
         "title": "Шаг 4 - Направление исходящих запросов из ServiceA в ServiceB.",
         "text": "step4.md"
+      },
+      {
+        "title": "Шаг 5 - Расщепление трафика из ServiceA.",
+        "text": "step5.md"
       }
     ],
     "intro": {

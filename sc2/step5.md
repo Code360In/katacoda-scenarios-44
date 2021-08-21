@@ -1,6 +1,8 @@
-На этом шаге мы направим исходящие запросы из ServiceA в ServiceB. На схеме это выглядет слудующим образом:
+На этом шаге мы настроим балансиоровку исходящего трафика из ServiceA на два сервсиса-поставщика данных - ServiceB и ServiceC.
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}
+Схеме service mesh, в соотвесвтии с которой будем настраивать наш кластер:
+
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-3.png`{{copy}}
 
 Давайте установим ServiceB:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
@@ -12,7 +14,7 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
 
 Проверим готовность подов:
-`kubectl get pods --all-namespaces`{{execute}}
+`kubectl get pods —all-namespaces`{{execute}}
 
 Повторим совершенный на предидущем шаге GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}

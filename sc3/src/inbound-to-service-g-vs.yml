@@ -1,20 +1,20 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: inbound-to-service-a-vs
+  name: inbound-to-service-g-vs
 spec:
   hosts:
     - "*"
   gateways:
-    - service-a-gw
+    - service-g-gw
   http:
     - match:
         - uri:
-            exact: /service-a
+            exact: /service-g
       rewrite:
         uri: /
       route:
         - destination:
-            host: service-a-srv
+            host: service-g-srv
             port:
               number: 80

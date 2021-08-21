@@ -3,25 +3,25 @@ kind: Deployment
 metadata:
   name: service-a-v1-deployment
   labels:
-    app: service-a-app
+    app: service-g-app
     version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-a-app
+      app: service-g-app
       version: v1
   template:
     metadata:
       labels:
-        app: service-a-app
+        app: service-g-app
         version: v1
     spec:
       containers:
-        - name: service-a-container
-          image: artashesavetisyan/istio-basics-course:service-a-v4
+        - name: service-g-container
+          image: artashesavetisyan/istio-basics-course:service-g
           imagePullPolicy: Always
           ports:
-            - containerPort: 8081
+            - containerPort: 8083
           securityContext:
             runAsUser: 1000

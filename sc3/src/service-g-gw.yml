@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: service-a-gw
+  name: service-g-gw
 spec:
   selector:
     istio: ingressgateway

@@ -23,7 +23,7 @@
 `curl -v http://$GATEWAY_URL/service-g`{{execute}}
 
 
-В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
+В ответе на совершенный вызов на данном шаге мы должны видеть сообщение:
 `Hello from ServiceG! Calling master system API... 502 Bad Gateway: [no body]`
 
 Что произошло?

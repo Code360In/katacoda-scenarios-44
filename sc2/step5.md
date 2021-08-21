@@ -4,7 +4,28 @@
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-3.png`{{copy}}
 
-Давайте установим ServiceB:
+
+Установим ServiceC:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
+
+Применим манифест Service для деплоймента ServiceC:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
+
+Россмотрим новую версию правила маршрутизации producer-internal-host-vs:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{copy}}
+
+Блок spec.http[0].route содержит два вложенных блока destination с хостами producer-internal-host и service-c-srv а также с ключами weight, содержашими знаячание процентных долей для расщепления трафика и перенаправления всех поступивших на хост producer-internal-host (ключ spec.hosts) запросов.
+
+Обновим вирутальный сервис producer-internal-host-vs, созданный на предидущем шаге, новым манифестов producer-internal-host-50-c-vs.yml:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{execute}}
+
+Теперь, приблизительно 50% запросов будут направлены на Service C, оставшиейся как и ранее - на Service B. Совершите 5-6 запрсоов и убедить что в отве присутсвуют данные из разных из разных сервисов.
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
+
+
+
+
+
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
 Применим манифест Service для деплоймента выше:

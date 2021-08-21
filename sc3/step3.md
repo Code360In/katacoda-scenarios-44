@@ -1,4 +1,4 @@
-На этом шаге мы установим ServiceG настроим service mesh согласно следующей схеме:
+На этом шаге мы установим ServiceG и настроим service mesh согласно следующей схеме:
 
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc3-1.png`{{copy}}
 
@@ -24,18 +24,18 @@
 
 
 В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
+`Hello from ServiceG! Calling master system API... 502 Bad Gateway: [no body]`
 
+Что произошло?
 
+Мы совершили запрос в ingress-шлюз, который был перенаправлен в envoy-прокси пода с контейнером ServiceG. Далее запрос был маршрутизирован непосредственно в приложение ServiceG.
 
+ServiceG, получив запрос, совершил запрос по адресу http://www.oracle.com/index.html, однако, на данном шаге исходящие запросы из нашего кластера запрещены, поэтому в ответе мы видим `502 Bad Gateway: [no body]`.
 
+Проверим логи доступа Envoy ingress-шлюза:
+`kubectl logs -l app=istio-ingressgateway -n istio-system -c istio-proxy`{{execute}}
 
-
-`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceC! Calling worldtimeapi.org API... 502 Bad Gateway: [no body]`
-
-Такой ответ - результат направления запроса из ServiceA в ServiceC, который пытается получить данные из своего поставщика Интернете, напомню этот сервис запрашивает `http://worldtimeapi.org/api/timezone/Europe`.
-
-Однако, на данном шаге исходящие запросы из нашего кластера запрещены, поэтому в ответе мы видим `502 Bad Gateway: [no body]`.
-
-
+Проверим логи доступа Envoy в поде с бизнес сервисом:
+`kubectl logs -l app=service-g-app -c istio-proxy`{{execute}}
 
 Перейдем далее.

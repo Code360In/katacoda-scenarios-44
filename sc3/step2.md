@@ -5,7 +5,7 @@
 Исходный код приложения:
 `https://github.com/avsinsight/katacoda-scenarios/tree/main/apps/ServiceG`{{copy}}
 
-Итак, бизнес сервис совершает GET запросы внешний поставщик по адресу: `http://www.oracle.com/index.html`
+Итак, бизнес сервис совершает GET запросы на внешний поставщик по адресу: `http://www.oracle.com/index.html`
 
 Давайте рассмотрим ответ подобного запроса:
 `curl -v http://www.oracle.com/index.html`{{execute}}

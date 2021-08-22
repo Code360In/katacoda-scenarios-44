@@ -1,8 +1,19 @@
 Манифест Service позволяет Kubernetes создать некую абстракцию над коллекцией подов и открыть к ним единый адрес доступа, закрепив за ними определенный хост и IP адрес.
 
 Давайте рассмотрим этот манифест:
-
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{copy}}
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-internal-host
+spec:
+  ports:
+    - port: 80
+      name: http-80
+      targetPort: 8082
+  selector:
+    app: service-b-app
+```
 
 Обратите внимание на значение ключа metadata.name - содержит имя хоста по которому будет доступно внутри service mesh приложение, имя которого указно в ключе spec.selector.app.
 

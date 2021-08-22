@@ -3,7 +3,52 @@
 Для этого мы создадим EnvoyFilter, который будет внедрен в цепь фильтров envoy-прокси.
 
 Рассмотрим манифест rate-limits-ef.yml:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc4/src/rate-limit-5-ef.yml`{{copy}}
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: filter-local-rate-limit-ef
+  namespace: dev-service-mesh
+spec:
+  workloadSelector:
+    labels:
+      app: service-b-app
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+            stat_prefix: http_local_rate_limiter
+            token_bucket:
+              max_tokens: 1
+              tokens_per_fill: 1
+              fill_interval: 5s
+            filter_enabled:
+              runtime_key: local_rate_limit_enabled
+              default_value:
+                numerator: 100
+                denominator: HUNDRED
+            filter_enforced:
+              runtime_key: local_rate_limit_enforced
+              default_value:
+                numerator: 100
+                denominator: HUNDRED
+            response_headers_to_add:
+              - append: false
+                header:
+                  key: x-local-rate-limit
+                  value: 'true'
+            local_rate_limit_per_downstream_connection: false
+```
 
 Ключи metadata.namespace и spec.workloadSelector.labels позволяют определить под, envoy-прокси которого должен применить конфигурации.
 

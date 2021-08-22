@@ -1,9 +1,7 @@
 На этом шаге мы настроим балансиоровку исходящего трафика из ServiceA на два сервсиса-поставщика данных - ServiceB и ServiceC.
 
 Схема service mesh, в соотвесвтии с которой будем настраивать наш кластер:
-
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-3.png`{{copy}}
-
 
 Установим ServiceC:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-deployment.yml`{{execute}}
@@ -12,7 +10,29 @@
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-c-srv.yml`{{execute}}
 
 Россмотрим новую версию правила маршрутизации producer-internal-host-vs:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-50-c-vs.yml`{{copy}}
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: producer-internal-host-vs
+spec:
+  hosts:
+    - producer-internal-host
+  gateways:
+    - mesh
+  http:
+    - route:
+        - destination:
+            host: producer-internal-host
+            port:
+              number: 80
+          weight: 50
+        - destination:
+            host: service-c-srv
+            port:
+              number: 80
+          weight: 50
+```
 
 Блок spec.http[0].route содержит два вложенных блока destination с хостами producer-internal-host и service-c-srv, а также с ключами weight, содержашими значания процентных долей для расщепления трафика и перенаправления всех поступивших на хост producer-internal-host (ключ spec.hosts) запросов.
 

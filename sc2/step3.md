@@ -1,5 +1,4 @@
 На этом шаге мы настроим service mesh согласно следующей схеме:
-
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-1.png`{{copy}}
 
 Давайте установим ServiceA:
@@ -25,7 +24,6 @@
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
 В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
-
 `Hello from ServiceA! Calling Producer Service... I/O error on GET request for "http://producer-internal-host:80/": producer-internal-host; nested exception is java.net.UnknownHostException: producer-internal-host`
 
 Что произошло?

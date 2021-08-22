@@ -3,8 +3,22 @@
 На данном шаге мы будем конфигурировать ingres-шлюз представляющий собой под с контейнером envoy-proxy из пространства имен istio-system, где он был развернут автоматически при установке istio.
 
 Рассмотрим манифест:
-
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-gw.yml`{{copy}}
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: service-b-gw
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+```
 
 Обратите внимание на значения ключей spec.selector.istio - содержит значение селектора istio, таким образом определяя свое действие на под, имеющий подобный селектор (istio=ingressgateway).
 

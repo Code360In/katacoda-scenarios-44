@@ -1,4 +1,4 @@
-На этом шаге мы установим ServiceA и ServiceB, откроем входящий трафик, и направим исходящие запросы из ServiceA в ServiceB. 
+На этом шаге мы установим ServiceA и ServiceB, откроем входящий трафик и направим исходящие запросы из ServiceA в ServiceB. 
 
 На схеме это выглядет слудующим образом:
 `https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}

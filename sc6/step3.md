@@ -1,5 +1,8 @@
+В предыдущем шаге мы обращались к ServiceB через цепь взаимодействий: ingress-шлюз -> ServiceA -> ServiceB.
 
+Ingress-шлюз развернут в пространстве имен istio-system, ServiceA - в dev-service-mesh.
 
+Для демонстрации действия политики авторизации, давайте запретим все вызовы ServiceA в пространстве имен dev-service-mesh из istio-system при помощи манифеста ниже:
 ```
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -16,76 +19,51 @@ spec:
         - source:
             namespaces: ["istio-system"]
 ```
+Обратите внимание на ключ spec.selector, относящий данную политику к поду с селектором `app:service-a-app`, ключ spec.action, который содержит вид политики (в данном случае - запрещающая) и spec.rules - содержащий блок детализации правила, в данном случае правило будет относиться к запросам из пространства имен istio-system.
 
 Применим данный манифест:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy.yml`{{execute}}
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy-non-istio-sestem.yml`{{execute}}
 
+Совершим GET запрос в адрес ingress-шлюза, как ранее:
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
+Тела тела ответа не будет и среди заголовков ответа:
+```
+< HTTP/1.1 403 Forbidden
+< content-length: 19
+< content-type: text/plain
+< date: Sun, 22 Aug 2021 13:06:48 GMT
+< server: istio-envoy
+< x-envoy-upstream-service-time: 0
+```
 
+Цель достигнута.
 
-
-
-
-
-
-В предыдущем шаге мы обращались к ServiceB через цепь взаимодействий: ingress-шлюз -> ServiceA -> ServiceB.
-
-Напомню, каждый сервис в этой цепи обращается на IP-адресс и номер порта вызываемого сервиса, которые декларированы в манифесте Service. Такие прямые вызовы могут осуществлять любые клиенты, находящиеся в том же сетевом контуре, например внутри кластера, или вне кластера - если IP-адрес доступен из-вне.
-Давайте совершим прямой вызов ServiceB, минуя ingress-шлюз и ServiceA.
-
-Получим краткое описание существующих сервисов Kubernetes в текущем пространстве имен:
-`kubectl get services`{{execute}}
-
-Для удобства работы экспортируем в переменные IP-адрес и номер порта эндпоинта, который декларирован для ServiceB в манифесте Service с именем producer-internal-host:
-`export SERVICEB_HOST=$(kubectl get svc producer-internal-host -o jsonpath='{.spec.clusterIP}') && export SERVICEB_PORT=$(kubectl get svc producer-internal-host -o jsonpath='{.spec.ports[?(@.name=="http-80")].port}')`{{execute}}
-
-Просмотрим IP-адрес и номер порта ServiceB:
-`echo $SERVICEB_HOST:$SERVICEB_PORT`{{execute}}
-
-Совершим прямой вызов ServiceB минуя ingress-шлюз и ServiceA:
-`curl -v http://$SERVICEB_HOST:$SERVICEB_PORT/`{{execute}}
-
-В ответе мы увидим:
-`Hello from ServiceB!`
-
-Теперь давайте применим правило аутентификации для запрета доступа к поду с селектором app:service-b-app в пространстве имен dev-service-mesh всем узлам, которые не подтвердят допустимую идентичность:
-
+Давайте обновим предыдущую политику манифестом ниже:
 ```
 apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
+kind: AuthorizationPolicy
 metadata:
-  name: service-b-peer-to-peer-authn-policy
+  name: autho-policy
   namespace: dev-service-mesh
 spec:
   selector:
     matchLabels:
-      app: service-b-app
-  portLevelMtls:
-    8082:
-      mode: STRICT
-```
-Применим данный манифест:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc5/src/service-b-peer-to-peer-authn-policy.yml`{{execute}}
-
-Повторим прямой вызов ServiceB миную ingress-шлюз и ServiceA:
-`curl -v http://$SERVICEB_HOST:$SERVICEB_PORT/`{{execute}}
-
-Теперь ответа от ServiceB не будет, а в выводе CURL мы увидим обозначения отклонения соединения вызываемым узлом:
-```
-* Recv failure: Connection reset by peer
-* stopped the pause stream!
-* Closing connection 0
-curl: (56) Recv failure: Connection reset by peer
+      app: service-a-app
+  action: DENY
+  rules:
+    - from:
+        - source:
+            notNamespaces: ["istio-system"]
 ```
 
-## Что произошло?
+Обратите внимание на отличие от предыдущего манифеста: значение ключа spec.rules[0].from[0].source в данном случае `notNamespaces: ["istio-system"]`, что меняет эффект политики на запрет вызовов ServiceA из всех пространств имен, за исключением istio-system.
 
-После применения политики аутентификации узла, под с селектором app:service-b-app отклонил вызов из не аутентифицированного узла, в роли которого выступил в данном случае - клиент CURL.
+Обновим политику:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy-non-istio-sestem.yml`{{execute}}
 
-Повторим вызов ServiceB через цепь взаимодействий ingress-шлюз -> ServiceA -> ServiceB.
-
-Для этого совершим GET запрос в адрес ingress-шлюза, как ранее:
+Совершим GET запрос в адрес ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-Обратите внимание на то, что ответ при таком вызове не изменился, т. е. под ServiceB разрешил соединение из ServiceA, так как Istio обеспечивает идентификацию узлов внутри service mesh, которая рассмотрена в теоретической части курса в разделе "Конфигурация безопасности сети".
+Теперь мы снова видим успешный ответ:
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`

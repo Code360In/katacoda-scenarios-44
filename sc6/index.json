@@ -1,6 +1,6 @@
 {
-  "title": "Peer-to-peer аутентификация узла",
-  "description": "Рассмотим peer-to-peer аутентификацию узла",
+  "title": "Авторизация запросов в service mesh",
+  "description": "Рассмотрим авторизацию запросов в service mesh",
   "details": {
     "steps": [
       {
@@ -12,7 +12,7 @@
         "text": "step2.md"
       },
       {
-        "title": "Шаг 3 - Применение политики peer-to-peer аутнетификации узла",
+        "title": "Шаг 3 - Создание политики авторизации",
         "text": "step3.md"
       }
     ],

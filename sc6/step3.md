@@ -19,6 +19,7 @@ spec:
 
 Применим данный манифест:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy-non-istio-sestem.yml`{{execute}}
 
 
 

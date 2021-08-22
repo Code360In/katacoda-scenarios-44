@@ -1,3 +1,33 @@
+
+
+```
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: autho-policy
+  namespace: dev-service-mesh
+spec:
+  selector:
+    matchLabels:
+      app: service-a-app
+  action: DENY
+  rules:
+    - from:
+        - source:
+            namespaces: ["istio-system"]
+```
+
+Применим данный манифест:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy.yml`{{execute}}
+
+
+
+
+
+
+
+
+
 В предыдущем шаге мы обращались к ServiceB через цепь взаимодействий: ingress-шлюз -> ServiceA -> ServiceB.
 
 Напомню, каждый сервис в этой цепи обращается на IP-адресс и номер порта вызываемого сервиса, которые декларированы в манифесте Service. Такие прямые вызовы могут осуществлять любые клиенты, находящиеся в том же сетевом контуре, например внутри кластера, или вне кластера - если IP-адрес доступен из-вне.

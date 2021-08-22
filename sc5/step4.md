@@ -1,4 +1,6 @@
 
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc5/src/service-b-peer-to-peer-authn-policy.yml`{{execute}}
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc5/src/producer-internal-host-mtls-dr.yml`{{execute}}
 
 
 Для сравнения аналогичный вызов на предыдущем шаге возвращал такой ответ:

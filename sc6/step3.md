@@ -2,7 +2,7 @@
 
 Ingress-шлюз развернут в пространстве имен istio-system, ServiceA - в dev-service-mesh.
 
-Для демонстрации действия политики авторизации, давайте запретим все вызовы ServiceA в пространстве имен dev-service-mesh из istio-system при помощи манифеста ниже:
+Для демонстрации действия политики авторизации давайте запретим все вызовы ServiceA в пространстве имен dev-service-mesh из istio-system при помощи манифеста ниже:
 ```
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -24,10 +24,10 @@ spec:
 Применим данный манифест:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc6/src/autho-policy.yml`{{execute}}
 
-Совершим GET запрос в адрес ingress-шлюза, как ранее:
+Подождем 5-10 секунд для применения политики и совершим GET запрос в адрес ingress-шлюза, как ранее:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-Тела тела ответа не будет и среди заголовков ответа:
+Тела ответа не будет, а среди заголовков ответа:
 ```
 < HTTP/1.1 403 Forbidden
 < content-length: 19

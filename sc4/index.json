@@ -1,6 +1,6 @@
 {
-  "title": "Полтика rate limit",
-  "description": "Рассмотрим создание полтики rate limit",
+  "title": "Политика rate limit",
+  "description": "Рассмотрим создание политики rate limit",
   "details": {
     "steps": [
       {

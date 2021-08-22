@@ -20,9 +20,11 @@ spec.configPatches[0].patch.value.typed_config.token_bucket.max_tokens - мак�
 spec.configPatches[0].patch.value.typed_config.token_bucket.tokens_per_fill - чило токенов, которое добавляется при истечении временного интервала.
 
 Таким образом, для ограничения запросов до 100 tps (запросов в секунду), следует указать:
-`max_tokens: 100`
-`tokens_per_fill: 100`
-`fill_interval: 1s`
+```
+max_tokens: 100
+tokens_per_fill: 100
+fill_interval: 1s
+```
 
 Манифест в текущем виде ограничит число запросов до 1 в 5 секунд.
 
@@ -33,12 +35,14 @@ spec.configPatches[0].patch.value.typed_config.token_bucket.tokens_per_fill - ч
 `curl -v http://$GATEWAY_URL/service-b`{{execute}}
 
 При превышении допустимой частоты 1 запрос в 5 секунд, мы будем видеть слудующие заголовки в ответе, тела ответа не будет:
-`< HTTP/1.1 429 Too Many Requests`
-`< x-local-rate-limit: true`
-`< content-length: 18
-`< content-type: text/plain`
-`< date: Sat, 21 Aug 2021 23:32:16 GMT`
-`< server: istio-envoy`
-`< x-envoy-upstream-service-time: 0`
+```
+< HTTP/1.1 429 Too Many Requests
+< x-local-rate-limit: true
+< content-length: 18
+< content-type: text/plain
+< date: Sat, 21 Aug 2021 23:32:16 GMT
+< server: istio-envoy
+< x-envoy-upstream-service-time: 0
+```
 
 Таким образом, мы применили политику ограничения числа входящих запросов в единицу времени. 

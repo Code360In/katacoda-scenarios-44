@@ -1,41 +1,58 @@
-На этом шаге мы установим ServiceA и ServiceB, откроем входящий трафик, и направим исходящие запросы из ServiceA в ServiceB. 
+В предыдущем шаге мы обращались к ServiceB через цепь взаимодействий: ingress-шлюз -> ServiceA -> ServiceB.
 
-На схеме это выглядет слудующим образом:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}
+Напомню, каждый сервис в этой цепи обращается на IP-адресс и номер порта вызываемого сервиса, которые декларированы в манифесте Service. Такие прямые вызовы могут осуществлять любые клиенты, находящиеся в том же сетевом контуре, например внутри кластера, или вне кластера - если IP-адрес доступен из-вне.
+Давайте совершим прямой вызов ServiceB, минуя ingress-шлюз и ServiceA.
 
-Давайте установим ServiceA:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
+Получим краткое описание существующих сервисов Kubernetes в текущем пространстве имен:
+`kubectl get services`{{execute}}
 
-Применим Service для деплоймента выше:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
+Для удобства работы экспортируем в переменные IP-адрес и номер порта эндпоинта, который декларирован для ServiceB в манифесте Service с именем producer-internal-host:
+`export SERVICEB_HOST=$(kubectl get svc producer-internal-host -o jsonpath='{.spec.clusterIP}') && export SERVICEB_PORT=$(kubectl get svc producer-internal-host -o jsonpath='{.spec.ports[?(@.name=="http-80")].port}')`{{execute}}
 
-Создадим Gateway:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
+Просмотрим IP-адрес и номер порта ServiceB:
+`echo $SERVICEB_HOST:$SERVICEB_PORT`{{execute}}
 
-Определим правило маршрутизации:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
+Совершим прямой вызов ServiceB минуя ingress-шлюз и ServiceA:
+`curl -v http://$SERVICEB_HOST:$SERVICEB_PORT/`{{execute}}
 
-Давайте установим ServiceB:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
+В ответе мы увидим:
+`Hello from ServiceB!`
 
-Применим манифест Service для service-b-deployment:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
+Теперь давайте применим правило аутентификации для запрета доступа к поду с селектором app:service-b-app в пространстве имен dev-service-mesh всем узлам, которые не подтвердят допустимую идентичность:
 
-Применим правило маршрутизации запросов из ServiceA в ServiceB:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
+```
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: service-b-peer-to-peer-authn-policy
+  namespace: dev-service-mesh
+spec:
+  selector:
+    matchLabels:
+      app: service-b-app
+  portLevelMtls:
+    8082:
+      mode: STRICT
+```
+Применим данный манифест:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc5/src/service-b-peer-to-peer-authn-policy.yml`{{execute}}
 
-Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}} и `https://www.katacoda.com/artashesavetisyan/scenarios/sc2`{{copy}}
+Повторим прямой вызов ServiceB миную ingress-шлюз и ServiceA:
+`curl -v http://$SERVICEB_HOST:$SERVICEB_PORT/`{{execute}}
 
-Проверим готовность подов:
-`kubectl get pods --all-namespaces`{{execute}}
+Теперь ответа от ServiceB не будет, а в выводе CURL мы увидим обозначения отклонения соединения вызываемым узлом:
+```
+* Recv failure: Connection reset by peer
+* stopped the pause stream!
+* Closing connection 0
+curl: (56) Recv failure: Connection reset by peer
+```
+Что произошло?
+После применения политики аутентификации узла, под с селектором app:service-b-app отклонил вызовы из не аутентифицированного узла, в роли которого выступил в данном случае клиент CURL.
 
-Все поды, за исключением katacoda-cloud-provider, должны иметь статус Running, дождитесь нужного статсуса (в зависисмоти от нагрузки на серверы Katacoda это время может сильно варьировать).
+Повторим вызов ServiceB через цепь взаимодействий ingress-шлюз -> ServiceA -> ServiceB.
 
-
-Совершим GET запрос по адресу ingress-шлюза:
+Для этого соврешим GET запрос в адрес ingress-шлюза, как ранее:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-В случае успеха ответ на совершенный вызов должен быть таким:
-`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
-
-Перейдем далее.
+Обратите внимание на то, что ответ при таком вызове не изменился, т. е. под ServiceB разрешил соединение из ServiceA, так как Istio обеспечивает идентификацию узлов внутри service mesh, которая рассмотрена в теоретической части курса в разделе "Конфигурация безопасности сети".

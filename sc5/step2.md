@@ -1,31 +1,44 @@
+На этом шаге мы установим ServiceA и ServiceB, откроем входящий трафик, и направим исходящие запросы из ServiceA в ServiceB. 
 
+На схеме это выглядет слудующим образом:
+`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}
 
+Давайте установим ServiceA:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}
+
+Применим Service для деплоймента выше:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-srv.yml`{{execute}}
+
+Создадим Gateway:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-gw.yml`{{execute}}
+
+Определим правило маршрутизации:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
+
+Давайте установим ServiceB:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
+
+Применим манифест Service для service-b-deployment:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
+
+Применим правило маршрутизации запросов из ServiceA в ServiceB:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
+
+Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}} и `https://www.katacoda.com/artashesavetisyan/scenarios/sc2`{{copy}}
 
 Исходный код приложений:
-
 `https://github.com/avsinsight/katacoda-scenarios/tree/main/apps`{{copy}}
 
+Проверим готовность подов:
+`kubectl get pods --all-namespaces`{{execute}}
+
+Все поды, за исключением katacoda-cloud-provider, должны иметь статус Running, дождитесь нужного статсуса (в зависисмоти от нагрузки на серверы Katacoda это время может сильно варьировать).
 
 
+Совершим GET запрос по адресу ingress-шлюза:
+`curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-Цель данного упражнения заключается в исполнении следующего сценария:
+В случае успеха ответ на совершенный вызов должен быть таким:
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
 
-1) Установка трех сервисов: ServiceA, ServiceB, ServiceC. 
-
-2) Настройка маршрутизации входящего трафика service mesh в ServiceA
-
-3) Направление исходящих запросов из ServiceA в ServiceB.
-
-4) Расщепление трафика и направление запросов из ServiceA, как в ServiceB так и в ServiceC.
-
-5) Открытие исходящего трафика из service mesh для получения ответов из worldtimeapi.org на запросы из ServiceC.
-
-6) Перевод 100% запросов из ServiceA в ServiceC.
-
-ServiceA при получении запроса на адрес http://localhost:8081/, для формирования ответа запрашивает информацию у некого поставщика по константному адресу http://producer-internal-host:80/, получив ответ, ServiceA включает его в ответ на вызов из-вне кластера и возвращает его. В качестве подобных поставщиков вступают ServiceB, который всегда возвращает ответ "Hello from ServiceB", и ServiceC, который получив запрос, в свою очередь, совершает запрос на внешний хост worldtimeapi.org (http://worldtimeapi.org/api/timezone/Europe) и возвращает полученный ответ. ServiceB ожидает запросы на адрес http://localhost:8082/, ServiceC - http://localhost:8083/.
-
-Все изменения в направлениях маршрутизации будут происходит исключительно конфигурацией service mesh при помощи API Istio и прозрачно для установленных сервисов.
-
-
-
-Перейдем к следующему шагу.
+Перейдем далее.

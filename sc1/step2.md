@@ -8,7 +8,7 @@
 
 Запустим установку Istio: `istioctl install --set meshConfig.accessLogFile=/dev/stdout --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY`{{execute}}
 
-Во время установки следует подтвердить намерение указав в терминале символ `"y"`
+Во время установки следует подтвердить намерение указав в терминале символ `y`{{copy}}
 
 Обратите внимание на параметры, применяемые в данной команде:
 

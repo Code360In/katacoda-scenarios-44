@@ -31,7 +31,7 @@ node01         Ready    <none>   5m33s   v1.18.0
 
 Запустим установку Istio: `istioctl install --set meshConfig.accessLogFile=/dev/stdout --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY`{{execute}}
 
-Во время установки следует подтвердить намерение указав в терминале символ `"y"`
+Во время установки следует подтвердить намерение указав в терминале символ `y`{{copy}}
 
 ## Создание и конфигурация пространства имен
 

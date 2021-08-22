@@ -13,9 +13,11 @@
 Для получения их статусов, давайте выполним команду: `kubectl get nodes`{{execute}}
 
 Необходимое состояние узлов для перехода к следующему шагу приведено ниже:
-`NAME           STATUS   ROLES    AGE     VERSION`
-`controlplane   Ready    master   6m4s    v1.18.0`
-`node01         Ready    <none>   5m33s   v1.18.0`
+```
+NAME           STATUS   ROLES    AGE     VERSION
+controlplane   Ready    master   6m4s    v1.18.0
+node01         Ready    <none>   5m33s   v1.18.0
+```
 
 Если вы не наблюдаете подобного вывода, подождите 1-2 минуты и повторите попытку.
 

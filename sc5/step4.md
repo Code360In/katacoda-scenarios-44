@@ -1,28 +1,5 @@
 
 
-Давайте установим ServiceB:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
-
-Применим манифест Service для деплоймента выше:
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
-
-Определим правило маршрутизации запросов из ServiceA на хост producer-internal-host.
-
-Россмотрим producer-internal-host-vs:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{copy}}
-
-Применим данный манифест
-`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
-
-Проверим готовность подов:
-`kubectl get pods --all-namespaces`{{execute}}
-
-Повторим совершенный на предидущем шаге GET запрос по адресу ingress-шлюза:
-`curl -v http://$GATEWAY_URL/service-a`{{execute}}
-
-В случае успеха ответ на совершенный вызов должен быть таким:
-
-`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
 
 Для сравнения аналогичный вызов на предыдущем шаге возвращал такой ответ:
 

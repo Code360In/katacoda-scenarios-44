@@ -15,38 +15,27 @@
 Определим правило маршрутизации:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/inbound-to-serviceA-vs.yml`{{execute}}
 
+Давайте установим ServiceB:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}
 
+Применим манифест Service для service-b-deployment:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host.yml`{{execute}}
 
+Применим правило маршрутизации запросов из ServiceA в ServiceB:
+`kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/producer-internal-host-vs.yml`{{execute}}
 
-
-
-
-
-
-Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}}
+Подробно тип манифестов выше рассмотрены в упражнении: `https://www.katacoda.com/artashesavetisyan/scenarios/sc1`{{copy}} и `https://www.katacoda.com/artashesavetisyan/scenarios/sc2`{{copy}}
 
 Проверим готовность подов:
 `kubectl get pods --all-namespaces`{{execute}}
 
 Все поды, за исключением katacoda-cloud-provider, должны иметь статус Running, дождитесь нужного статсуса (в зависисмоти от нагрузки на серверы Katacoda это время может сильно варьировать).
 
-И наконец совершим GET запрос по адресу ingress-шлюза:
+
+Совершим GET запрос по адресу ingress-шлюза:
 `curl -v http://$GATEWAY_URL/service-a`{{execute}}
 
-В ответ на совершенный вызов на данном шаге мы должны видеть сообщение:
-
-`Hello from ServiceA! Calling Producer Service... I/O error on GET request for "http://producer-internal-host:80/": producer-internal-host; nested exception is java.net.UnknownHostException: producer-internal-host`
-
-Что произошло?
-
-Мы совершили запрос в ingress-шлюз, который был перенаправлен в envoy-прокси пода с контейнером ServiceA. Далее запрос был маршрутизирован непосредственно в приложение ServiceA.
-
-ServiceA, получив запрос, совершил запрос по адресу http://producer-internal-host:80/, однако данного хоста еще нет в service mesh, поэтому произошло исключение java.net.UnknownHostException. ServiceA подготовил ответ на внешний вызов и вернул его.
-
-Проверим логи доступа Envoy ingress-шлюза:
-`kubectl logs -l app=istio-ingressgateway -n istio-system -c istio-proxy`{{execute}}
-
-Проверим логи доступа Envoy в поде с бизнес сервисом:
-`kubectl logs -l app=service-a-app -c istio-proxy`{{execute}}
+В случае успеха ответ на совершенный вызов должен быть таким:
+`Hello from ServiceA! Calling Producer Service... Received response from Producer Service: Hello from ServiceB!`
 
 Перейдем далее.

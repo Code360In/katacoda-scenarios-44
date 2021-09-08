@@ -1,5 +1,6 @@
 На этом шаге мы настроим service mesh согласно следующей схеме:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-1.png`{{copy}}
+
+![Mesh configuration](../assets/sc2-1.png)
 
 Давайте установим ServiceA:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}

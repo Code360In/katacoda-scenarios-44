@@ -2,7 +2,7 @@
 
 Схема service mesh, в соотвесвтии с которой будем настраивать наш кластер:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-4.png`{{copy}}
+![Mesh configuration](../assets/sc2-4.png)
 
 Существует 3 подхода к открытию исходящего трафика в Istio:
 

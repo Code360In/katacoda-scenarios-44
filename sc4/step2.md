@@ -1,7 +1,8 @@
 В данном упражнении мы установим ServiceB и настроим входящий трафик.
 
 Схема создаваемой конфигурации сети:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/scheme1-b.png`{{copy}}
+
+![Mesh configuration](../assets/scheme1-b.png)
 
 Давайте установим ServiceB:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/service-b-deployment.yml`{{execute}}

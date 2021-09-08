@@ -1,6 +1,6 @@
 На этом шаге мы установим ServiceG и настроим service mesh согласно следующей схеме:
 
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc3-1.png`{{copy}}
+![Mesh configuration](../assets/sc3-1.png)
 
 Давайте установим ServiceG:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc3/src/service-g-deployment.yml`{{execute}}

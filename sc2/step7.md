@@ -3,7 +3,8 @@
 Для этого нам нужно будет обновить манифест producer-internal-host-vs.
 
 Схема сети:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-5.png`{{copy}}
+
+![Mesh configuration](../assets/c2-5.png)
 
 Рассмотрим новую версию:
 ```

@@ -1,7 +1,8 @@
 На этом шаге мы установим ServiceA и ServiceB, откроем входящий трафик и направим исходящие запросы из ServiceA в ServiceB. 
 
 На схеме это выглядет слудующим образом:
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/sc2-2.png`{{copy}}
+
+![Mesh configuration](../assets/sc2-2.png)
 
 Давайте установим ServiceA:
 `kubectl apply -f https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/sc1/src/serviceA-v1-deployment.yml`{{execute}}

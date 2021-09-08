@@ -1,8 +1,8 @@
 На этом и следующих шагах мы развернем бизнес сервис в service mesh и откроем к нему доступ из вне.
 
 Схема создаваемой конфигурации сети:
-![Mesh configuration](./assets/scheme1-b.png)
-`https://raw.githubusercontent.com/avsinsight/katacoda-scenarios/main/assets/scheme1-b.png`{{copy}}
+
+![Mesh configuration](../assets/scheme1-b.png)
 
 Мы применим манифест Deploymnet на основе чего будет запущен под, содержащий бизнес-сервис.
 
